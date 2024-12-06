@@ -1,0 +1,42 @@
+Contributing to HexaCode
+========================
+
+We welcome contributions to improve HexaCode! Here's how you can get involved:
+
+1. Fork the Repository:
+   - Visit the GitHub page for HexaCode.
+   - Click **Fork** to create a copy in your account.
+
+2. Clone the Repository:
+   - Clone your forked repository locally:
+     .. code-block:: bash
+
+         git clone https://github.com/yourusername/hexacode-backend.git
+
+3. Create a Branch:
+   - Create a new branch for your changes:
+     .. code-block:: bash
+
+         git checkout -b feature-name
+
+4. Make Changes:
+   - Improve documentation, fix bugs, or add features.
+   - Test your changes thoroughly.
+
+5. Submit a Pull Request:
+   - Push your changes:
+     .. code-block:: bash
+
+         git push origin feature-name
+
+   - Open a pull request from your fork on GitHub.
+
+6. Wait for Review:
+   - A project maintainer will review your request and provide feedback.
+
+Development Environment:
+------------------------
+
+- **Python**: Required for backend development.
+- **Node.js**: Required for frontend development.
+
