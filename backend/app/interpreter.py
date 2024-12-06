@@ -16,10 +16,11 @@ def execute(tokens, print_callback=print):
     """
     for token_line in tokens:
         command = token_line[0]
-        
+
         if command == "AFFICHE":
             # Handle AFFICHE (print) command
             content = " ".join(token_line[1:]).strip('"')
             print_callback(content)
         else:
+            # Handle unknown commands
             print_callback(f"Commande inconnue : {command}")
