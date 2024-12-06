@@ -1,0 +1,13 @@
+# Core dependencies
+Flask==3.0.3
+Flask-Cors==4.0.1
+
+# Development and testing tools (optional)
+pytest==7.4.0
+
+# Sphinx for documentation
+sphinx==7.2.6
+sphinx-rtd-theme>=1.2.2
+
+# Additional utilities (optional)
+gunicorn==21.2.0  # For production deployment

@@ -1,0 +1,87 @@
+# General
+.DS_Store
+Thumbs.db
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.env
+*.venv
+venv/
+ENV/
+env/
+.idea/
+.vscode/
+*.swp
+*.swo
+.mypy_cache/
+coverage/
+.coverage
+.cache
+pytest_cache/
+*.log
+
+# Flask-Specific
+instance/
+*.db
+*.sqlite3
+
+# Sphinx Documentation
+docs/_build/
+docs/*.log
+docs/*.doctree
+
+# Node.js (for frontend or build tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+/dist/
+/build/
+*.cache
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+
+# Frontend Build Output
+/public/
+*.html
+*.map
+*.json
+*.css
+*.js
+
+# Temporary Files
+*.tmp
+*.temp
+*.bak
+*.old
+~$*
+
+# IDE Specific
+.vscode/
+.idea/
+*.iml
+
+# Docker and CI/CD
+.dockerignore
+*.pid
+*.sock
+/.docker/
+docker-compose.override.yml
+
+# Data Files (track processed data in a controlled way)
+data/raw/       # Ignore raw data
+data/interim/   # Ignore intermediate data
+data/processed/ # Ignore processed data
+!data/README.md # Keep a README to explain data organization
