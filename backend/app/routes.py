@@ -45,39 +45,25 @@ def execute_code():
         return jsonify({"error": "Internal server error"}), 500
 
 # Serve documentation files
-@api_blueprint.route('/docs/<path:filename>')
+api_blueprint.route('/docs/<path:filename>', methods=['GET'])
 def serve_docs(filename):
     """
-    Endpoint to serve documentation files.
+    Endpoint to serve Sphinx documentation files.
     """
+    docs_dir = os.path.join(os.getcwd(), "static_docs")
     try:
-        docs_dir = os.path.join(os.getcwd(), "static_docs")
-        logger.info("Serving documentation file: %s", filename)
         return send_from_directory(docs_dir, filename)
     except FileNotFoundError:
-        logger.warning("Documentation file not found: %s", filename)
         return jsonify({"error": "Documentation file not found"}), 404
-    except Exception as e:
-        logger.error("Error while serving documentation: %s", str(e), exc_info=True)
-        return jsonify({"error": "Internal server error"}), 500
 
-# Serve the documentation index
-@api_blueprint.route('/docs/')
+# Redirect /docs/ to the documentation index
+@api_blueprint.route('/docs/', methods=['GET'])
 def serve_docs_index():
     """
-    Endpoint to serve the index page of the documentation.
+    Endpoint to serve the documentation index page.
     """
-    try:
-        docs_dir = os.path.join(os.getcwd(), "static_docs")
-        logger.info("Serving documentation index page.")
-        return send_from_directory(docs_dir, "index.html")
-    except FileNotFoundError:
-        logger.warning("Documentation index page not found.")
-        return jsonify({"error": "Documentation index page not found"}), 404
-    except Exception as e:
-        logger.error("Error while serving documentation index: %s", str(e), exc_info=True)
-        return jsonify({"error": "Internal server error"}), 500
-
+    docs_dir = os.path.join(os.getcwd(), "static_docs")
+    return send_from_directory(docs_dir, "index.html")
 # Handle HTTP errors globally
 @api_blueprint.errorhandler(HTTPException)
 def handle_http_exception(e):
