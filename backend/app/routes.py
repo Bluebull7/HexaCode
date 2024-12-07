@@ -2,16 +2,17 @@ from flask import Blueprint, request, jsonify, send_from_directory
 from werkzeug.exceptions import HTTPException
 import logging
 import os
-from app.interpreter import tokenize, execute
+from app.interpreter import HexaInterpreter
 
 # Initialize the logger
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 # Create a blueprint for the API
 api_blueprint = Blueprint("api", __name__)
 
-# Serve the HexaCode Playground API
+# Initialize the HexaInterpreter
+interpreter = HexaInterpreter()
+
 @api_blueprint.route('/execute', methods=['POST'])
 def execute_code():
     """
@@ -23,7 +24,7 @@ def execute_code():
         if not data or "script" not in data:
             logger.warning("No script provided in the request body.")
             return jsonify({"error": "No script provided"}), 400
-        
+
         script = data.get("script", "").strip()
         if not script:
             logger.warning("Empty script provided.")
@@ -31,20 +32,24 @@ def execute_code():
 
         # Process the script
         logger.info("Executing script: %s", script)
-        tokens = tokenize(script)  # Assuming tokenize is defined
+        tokens = interpreter.tokenize(script)
         output = []
-        execute(tokens, print_callback=lambda x: output.append(x))  # Assuming execute is defined
+        interpreter.execute(script, print_callback=lambda x: output.append(x))
 
         # Return successful response
         logger.info("Execution completed successfully.")
         return jsonify({"output": "\n".join(output)})
     
+    except SyntaxError as e:
+        # Handle script syntax errors
+        logger.warning("Syntax error during script execution: %s", str(e))
+        return jsonify({"error": "Syntax Error", "message": str(e)}), 400
+
     except Exception as e:
         # Log and handle unexpected errors
         logger.error("An unexpected error occurred: %s", str(e), exc_info=True)
         return jsonify({"error": "Internal server error"}), 500
 
-# Serve documentation files
 @api_blueprint.route('/docs/<path:filename>')
 def serve_docs(filename):
     """
@@ -61,7 +66,6 @@ def serve_docs(filename):
         logger.error("Error while serving documentation: %s", str(e), exc_info=True)
         return jsonify({"error": "Internal server error"}), 500
 
-# Serve the documentation index
 @api_blueprint.route('/docs/')
 def serve_docs_index():
     """
@@ -78,7 +82,6 @@ def serve_docs_index():
         logger.error("Error while serving documentation index: %s", str(e), exc_info=True)
         return jsonify({"error": "Internal server error"}), 500
 
-# Handle HTTP errors globally
 @api_blueprint.errorhandler(HTTPException)
 def handle_http_exception(e):
     """
@@ -87,7 +90,6 @@ def handle_http_exception(e):
     logger.warning("HTTP error occurred: %s", e.description)
     return jsonify({"error": e.description}), e.code
 
-# Handle other uncaught exceptions globally
 @api_blueprint.errorhandler(Exception)
 def handle_exception(e):
     """
