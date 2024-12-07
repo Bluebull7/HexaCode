@@ -1,23 +1,26 @@
 import React, { useState } from "react";
-import { Layout, Row, Col, Card, Input, Button } from "antd";
-import axios from "axios";
+import { Layout, Row, Col } from "antd";
+import Editor from "./Editor";
+import Console from "./Console";
 
-const { TextArea } = Input;
 const { Content } = Layout;
 
 const Playground = () => {
-  const [script, setScript] = useState("");
-  const [output, setOutput] = useState("");
+  const [script, setScript] = useState(""); // Code written in the editor
+  const [output, setOutput] = useState(""); // Output from the backend
 
   const executeCode = async () => {
     try {
-      const response = await axios.post("http://localhost:5000/api/execute", {
-        script,
+      const response = await fetch("http://localhost:5000/api/execute", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ script }),
       });
-      setOutput(response.data.output);
+      const data = await response.json();
+      setOutput(data.output);
     } catch (error) {
       console.error(error);
-      setOutput(error.response?.data?.error || "An error occurred.");
+      setOutput("An error occurred while executing the code.");
     }
   };
 
@@ -25,55 +28,14 @@ const Playground = () => {
     <Layout style={{ minHeight: "100vh", backgroundColor: "#f0f2f5" }}>
       <Content style={{ padding: "20px" }}>
         <Row gutter={[16, 16]}>
-          {/* Editor */}
+          {/* Editor Section */}
           <Col xs={24} md={12}>
-            <Card
-              title="Editor"
-              style={{
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                borderRadius: "8px",
-              }}
-            >
-              <TextArea
-                value={script}
-                onChange={(e) => setScript(e.target.value)}
-                rows={15}
-                placeholder="// Write your HexaCode here..."
-              />
-              <Button
-                type="primary"
-                style={{ marginTop: "10px", width: "100%" }}
-                onClick={executeCode}
-              >
-                Run Code
-              </Button>
-            </Card>
+            <Editor script={script} setScript={setScript} executeCode={executeCode} />
           </Col>
 
-          {/* Console */}
+          {/* Console Section */}
           <Col xs={24} md={12}>
-            <Card
-              title="Console"
-              style={{
-                boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
-                borderRadius: "8px",
-              }}
-            >
-              <pre
-                style={{
-                  whiteSpace: "pre-wrap",
-                  backgroundColor: "#f6f6f6",
-                  padding: "10px",
-                  borderRadius: "8px",
-                  fontFamily: "Courier, monospace",
-                  color: "#333",
-                  minHeight: "230px",
-                  overflowY: "auto",
-                }}
-              >
-                {output}
-              </pre>
-            </Card>
+            <Console output={output} />
           </Col>
         </Row>
       </Content>
