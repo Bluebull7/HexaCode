@@ -12,12 +12,6 @@ HexaCode is a custom French-based programming language designed for educational 
 
 ---
 
-## Getting Started
-
-Follow these steps to set up and run the HexaCode Playground locally:
-
----
-
 ### Prerequisites
 
 Ensure you have the following installed on your system:
