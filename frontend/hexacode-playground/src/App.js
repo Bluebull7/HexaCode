@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import Home from './components/Home';
 import Docs from './components/Docs';
 import Playground from './components/Playground';
-import Sidebar from './components/Sidebar';
+import Sidebar from './components/Sidebar2';
 import AppHeader from './components/Header';
 import 'antd/dist/reset.css'; // For Ant Design styles
 
