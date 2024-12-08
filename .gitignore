@@ -54,12 +54,12 @@ logs/
 *.err
 
 # Frontend Build Output
-/public/
-*.html
-*.map
-*.json
-*.css
-*.js
+#/public/
+#*.html
+#*.map
+#*.json
+#*.css
+#*.js
 
 # Temporary Files
 *.tmp
