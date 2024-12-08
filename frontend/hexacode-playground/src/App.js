@@ -1,6 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { Layout } from 'antd';
+import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
 import Home from './components/Home';
 import Docs from './components/Docs';
 import Playground from './components/Playground';
@@ -14,27 +14,35 @@ const App = () => {
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        {/* Header Component */}
+        {/* Application Header */}
         <AppHeader />
 
         <Layout>
-          {/* Sidebar Component */}
+          {/* Sidebar for Documentation Navigation */}
           <Sider width={200} style={{ background: '#fff' }}>
             <Sidebar />
           </Sider>
 
-          {/* Main Content */}
+          {/* Main Content Area */}
           <Content style={{ padding: '20px' }}>
             <Routes>
+              {/* Home Route */}
               <Route path="/" element={<Home />} />
-              <Route path="/docs/:docName" element={<Docs />} />
+
+              {/* Playground Route */}
               <Route path="/playground" element={<Playground />} />
+
+              {/* Documentation Route */}
+              <Route path="/docs" element={<Docs />} />
+
+              {/* Redirect Invalid Routes */}
+              <Route path="*" element={<Navigate to="/" />} />
             </Routes>
           </Content>
         </Layout>
 
         {/* Footer */}
-        <Footer style={{ textAlign: 'center' }}>HexaCode Lance Henry ©2024</Footer>
+        <Footer style={{ textAlign: 'center' }}>HexaCode ©2024</Footer>
       </Layout>
     </Router>
   );
