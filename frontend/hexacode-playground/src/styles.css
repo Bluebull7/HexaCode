@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f0f2f5;
+}
+
+.ant-layout-header {
+  background: #001529;
+}
+
+.ant-card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+pre {
+  background-color: #222;
+  color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  font-family: Consolas, "Courier New", monospace;
+}
