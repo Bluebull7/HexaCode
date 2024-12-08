@@ -47,48 +47,26 @@ def execute_code():
         logger.error("Unexpected error during script execution: %s", str(e), exc_info=True)
         return jsonify({"error": "Internal server error"}), 500
 
-@api_blueprint.route('/docs/<path:filename>')
-def serve_docs(filename):
+# Serve React App (Frontend)
+BASE_DIR = os.path.dirname(__file__)
+@api_blueprint.route("/", defaults={"path": ""})
+@api_blueprint.route("/<path:path>")
+def serve_react_app(path):
     """
-    Serve documentation files from static_docs.
-    """
-    try:
-        # Path to static_docs
-        docs_dir = os.path.join(os.path.dirname(__file__), "static_docs/html")
-        
-        # Log the request
-        logger.info(f"Serving documentation file: {filename}")
-        print(f"Resolved stati  c_docs path: {docs_dir}")
-
-        # Serve the file
-        return send_from_directory(docs_dir, filename)
-    except FileNotFoundError:
-        logger.warning(f"Documentation file not found: {filename}")
-        return jsonify({"error": "Documentation file not found"}), 404
-    except Exception as e:
-        logger.error(f"Error serving documentation file: {e}", exc_info=True)
-        return jsonify({"error": "Internal server error"}), 500
-
-@api_blueprint.route('/docs/')
-def serve_docs_index():
-    """
-    Serve the index page of the documentation.
+    Serve React app for all routes except API.
     """
     try:
-        # Path to static_docs
-        docs_dir = os.path.join(os.path.dirname(__file__), "static_docs/html")
-        
-        # Log the request
-        logger.info("Serving documentation index page.")
-        
-        # Serve index.html
-        return send_from_directory(docs_dir, "index.html")
+        react_build_dir = os.path.join(BASE_DIR, "react_build")
+        file_path = os.path.join(react_build_dir, path)
+
+        if os.path.exists(file_path):
+            return send_from_directory(react_build_dir, path)
+        else:
+            # Serve React's index.html for unmatched frontend routes
+            return send_from_directory(react_build_dir, "index.html")
     except FileNotFoundError:
-        logger.warning("Documentation index page not found.")
-        return jsonify({"error": "Documentation index page not found"}), 404
-    except Exception as e:
-        logger.error(f"Error serving documentation index: {e}", exc_info=True)
-        return jsonify({"error": "Internal server error"}), 500
+        logger.error("React build directory or index.html not found.")
+        return jsonify({"error": "React app not found"}), 404
 
 
 @api_blueprint.errorhandler(HTTPException)

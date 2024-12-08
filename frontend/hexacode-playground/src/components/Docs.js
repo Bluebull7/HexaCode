@@ -1,46 +1,51 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Card, Spin, Alert } from 'antd';
+import { Layout, Typography, Card, Spin, Alert } from 'antd';
+import { useParams } from 'react-router-dom';
 
-const { Title, Paragraph } = Typography;
+const { Content } = Layout;
+const { Title } = Typography;
 
 const Docs = () => {
-  const [docs, setDocs] = useState('');
+  const { docName } = useParams(); // Get the documentation name from the URL
+  const [content, setContent] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/api/docs/index.html') // Adjust the endpoint as needed
+    // Fetch the documentation HTML
+    fetch(`/docs/${docName}.html`)
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Failed to fetch documentation');
+          throw new Error('Failed to load documentation');
         }
         return response.text();
       })
       .then((data) => {
-        setDocs(data);
+        setContent(data);
         setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
         setLoading(false);
       });
-  }, []);
-
-  if (loading) {
-    return <Spin size="large" style={{ display: 'block', margin: '20px auto' }} />;
-  }
+  }, [docName]);
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Title level={1}>Documentation</Title>
-      {error ? (
-        <Alert message="Error" description={error} type="error" showIcon />
-      ) : (
-        <Card>
-          <div dangerouslySetInnerHTML={{ __html: docs }} />
-        </Card>
-      )}
-    </div>
+    <Layout style={{ padding: '20px' }}>
+      <Content>
+        <Title level={2} style={{ marginBottom: '20px' }}>{docName.replace('-', ' ').toUpperCase()}</Title>
+        {loading ? (
+          <Spin size="large" style={{ display: 'block', margin: '20px auto' }} />
+        ) : error ? (
+          <Alert message="Error" description={error} type="error" showIcon />
+        ) : (
+          <Card>
+            {/* Render the fetched HTML content */}
+            <div dangerouslySetInnerHTML={{ __html: content }} />
+          </Card>
+        )}
+      </Content>
+    </Layout>
   );
 };
 
