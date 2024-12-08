@@ -8,7 +8,7 @@ def create_app():
     app = Flask(__name__)
     
     # Enable CORS for all routes
-    CORS(app, resources={r"/*": {"origins": "*"}})
+    CORS(app)
 
     # Register Blueprints
     from app.routes import api_blueprint
