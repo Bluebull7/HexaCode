@@ -3,14 +3,14 @@ import re
 class Lexer:
     def __init__(self):
         self.TOKEN_SPECIFICATION = [
-            ('NUMBER', r'\d+'),                  # Integers
-            ('IDENTIFIER', r'[a-zA-Z_]\w*'),    # Variable names
-            ('KEYWORD', r'\b(deb|fin|impr|si|sin|tanq|func|var|ret)\b'),  # Abbreviated keywords
-            ('OP', r'[+\-*/=<>]'),              # Operators
-            ('NEWLINE', r'\n'),                 # Line endings
-            ('SKIP', r'[ \t]+'),                # Skip spaces and tabs
-            ('MISMATCH', r'.'),                 # Any other character
-        ]
+            ('KEYWORD', r'\b(deb|fin|impr|si|sin|tanq)\b'),  # Keywords
+    ('NUMBER', r'\d+'),                              # Numbers
+    ('IDENTIFIER', r'[a-zA-Z_]\w*'),                # Variable names
+    ('OP', r'[+\-*/=<>]'),                          # Operators
+    ('NEWLINE', r'\n'),                             # Line endings
+    ('SKIP', r'[ \t]+'),                            # Skip spaces and tabs
+    ('MISMATCH', r'.'),                             # Any other character                 # Any other character
+    ]
 
     def lex(self, source_code):
         tokens = []
@@ -30,4 +30,6 @@ class Lexer:
                 raise SyntaxError(f'{value!r} unexpected on line {line_num}')
             else:
                 tokens.append((kind, value, line_num, column))
+         # Debugging: Print tokens
+            print("Generated Tokens:", tokens)
         return tokens
