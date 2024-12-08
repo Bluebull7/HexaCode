@@ -48,6 +48,7 @@ def execute_code():
         return jsonify({"error": "Internal server error"}), 500
 
 # Serve React App (Frontend)
+BASE_DIR = os.path.dirname(__file__)
 @api_blueprint.route("/", defaults={"path": ""})
 @api_blueprint.route("/<path:path>")
 def serve_react_app(path):

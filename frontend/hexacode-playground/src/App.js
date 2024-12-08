@@ -34,7 +34,7 @@ const App = () => {
         </Layout>
 
         {/* Footer */}
-        <Footer style={{ textAlign: 'center' }}>HexaCode ©2024</Footer>
+        <Footer style={{ textAlign: 'center' }}>HexaCode Lance Henry ©2024</Footer>
       </Layout>
     </Router>
   );
