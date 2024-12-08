@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate, Link } from 'react-router-dom';
 import { Layout, Menu } from 'antd';
 import Home from './components/Home';
 import Docs from './components/Docs';
 import Playground from './components/Playground';
 import Sidebar from './components/Sidebar2';
 import AppHeader from './components/Header';
-import 'antd/dist/reset.css'; // For Ant Design styles
+import 'antd/dist/reset.css'; // Ant Design styles
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Router>
       <Layout style={{ minHeight: '100vh' }}>
-        {/* Application Header */}
+        {/* Header Navigation */}
         <Header>
           <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['home']}>
             <Menu.Item key="home">
@@ -24,7 +24,9 @@ const App = () => {
               <Link to="/playground">Playground</Link>
             </Menu.Item>
             <Menu.Item key="docs">
-              <Link to="/docs">Documentation</Link>
+              <a href="/introduction.html" target="_blank" rel="noopener noreferrer">
+                Documentation
+              </a>
             </Menu.Item>
           </Menu>
         </Header>
@@ -35,7 +37,7 @@ const App = () => {
             <Sidebar />
           </Sider>
 
-          {/* Main Content Area */}
+          {/* Main Content */}
           <Content style={{ padding: '20px' }}>
             <Routes>
               {/* Home Route */}
@@ -43,9 +45,6 @@ const App = () => {
 
               {/* Playground Route */}
               <Route path="/playground" element={<Playground />} />
-
-              {/* Documentation Route */}
-              <Route path="/docs/*" element={<Docs />} />
 
               {/* Redirect Invalid Routes */}
               <Route path="*" element={<Navigate to="/" />} />

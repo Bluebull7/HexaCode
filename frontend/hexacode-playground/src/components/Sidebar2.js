@@ -1,18 +1,23 @@
 import React from 'react';
 import { Menu } from 'antd';
-import { Link } from 'react-router-dom';
 
 const Sidebar2 = () => {
   return (
     <Menu mode="inline" style={{ height: '100%' }}>
       <Menu.Item key="introduction">
-        <Link to="/introduction.html">Introduction</Link>
+        <a href="/introduction.html" target="_blank" rel="noopener noreferrer">
+          Introduction
+        </a>
       </Menu.Item>
       <Menu.Item key="getting-started">
-        <Link to="/DOCS.html">Getting Started</Link>
+        <a href="/usage.html" target="_blank" rel="noopener noreferrer">
+          Getting Started
+        </a>
       </Menu.Item>
       <Menu.Item key="api">
-        <Link to="/api-reference.html">API Reference</Link>
+        <a href="/api-reference.html" target="_blank" rel="noopener noreferrer">
+          API Reference
+        </a>
       </Menu.Item>
     </Menu>
   );
