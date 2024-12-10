@@ -1,0 +1,23 @@
+version: '3.9'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80" # Map React to port 3000 on the host
+    restart: always
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000" # Map Flask to port 5000 on the host
+    environment:
+      FLASK_APP: app.py
+      FLASK_ENV: production
+    restart: always
+    depends_on:
+      - frontend
