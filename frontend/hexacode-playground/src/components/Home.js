@@ -11,7 +11,7 @@ const Home = () => {
       <Paragraph>Explore our API, documentation, and playground.</Paragraph>
       <Menu mode="horizontal">
         <Menu.Item key="docs">
-          <Link to="/docs">Documentation</Link>
+          <Link to="/introduction.html">Documentation</Link>
         </Menu.Item>
         <Menu.Item key="playground">
           <Link to="/playground">Playground</Link>
